@@ -21,7 +21,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
             android:textAlignment="textEnd"
-            android:height="200dp"
+            android:height="150dp"
             android:overScrollMode="ifContentScrolls"
             android:textColor="@color/user_input_text"
             android:textSize="45sp" />
