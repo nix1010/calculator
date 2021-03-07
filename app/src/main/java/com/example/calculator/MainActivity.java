@@ -10,16 +10,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Toast toast;
     private TextView inputExpression;
     private TextView resultExpression;
     private int brackets;
-    private boolean openingBracket;
+    private boolean isOpeningBracket;
+    private boolean isDecimalInput;
     private static final int MAX_DIGIT_LENGTH = 15;
-    private Toast toast;
+    private static final int MAX_DECIMAL_LENGTH = 10;
+    private static final char EMPTY_CHAR_VALUE = 'E';
 
     public MainActivity() {
-        brackets = 0;
-        openingBracket = true;
     }
 
     @Override
@@ -30,15 +31,35 @@ public class MainActivity extends AppCompatActivity {
         toast = new Toast(this);
         inputExpression = findViewById(R.id.expression_input);
         resultExpression = findViewById(R.id.expression_result);
+        reset();
     }
 
     public void onClickInsertResult(View view) {
-        insertResult();
+        inputExpression.setText(resultExpression.getText());
+        resultExpression.setText("");
     }
 
     public void onClickInsertPositiveNegativeSign(View view) {
         StringBuilder expressionBuilder = new StringBuilder(inputExpression.getText());
-        insertPositiveNegativeSign(expressionBuilder);
+        StringBuilder numberBuilder = new StringBuilder();
+        int idx = expressionBuilder.length();
+
+        while (idx - 1 >= 0 && isDigit(expressionBuilder.charAt(idx - 1))) {
+            --idx;
+            numberBuilder.insert(0, expressionBuilder.charAt(idx));
+        }
+
+        if (idx - 1 >= 0 && expressionBuilder.charAt(idx - 1) == Operation.SUBTRACTION.getValue()
+                && idx - 2 >= 0 && expressionBuilder.charAt(idx - 2) == Symbol.OPEN_BRACKET.getValue()) {
+            expressionBuilder.replace(idx - 2, idx, "");
+            --brackets;
+        } else {
+            //remove number
+            expressionBuilder.replace(idx, expressionBuilder.length(), "");
+            insertOpenBracket(expressionBuilder);
+            expressionBuilder.append(Operation.SUBTRACTION);
+            expressionBuilder.append(numberBuilder);
+        }
 
         inputExpression.setText(expressionBuilder);
     }
@@ -82,13 +103,27 @@ public class MainActivity extends AppCompatActivity {
                 throw new IllegalStateException("Unexpected value: " + view.getId());
         }
         StringBuilder expressionBuilder = new StringBuilder(inputExpression.getText());
-        insertDigit(expressionBuilder, digit);
-        inputExpression.setText(insertCommasInNumbers(expressionBuilder.toString()));
+        expressionBuilder.append(digit);
+
+        if (isDecimalInput && lastNumberLength(expressionBuilder) > MAX_DECIMAL_LENGTH) {
+            showToast(getResources().getString(R.string.max_decimal_length, String.valueOf(MAX_DECIMAL_LENGTH)));
+            return;
+        }
+        if (lastNumberLength(expressionBuilder) > MAX_DIGIT_LENGTH) {
+            showToast(getResources().getString(R.string.max_number_length, String.valueOf(MAX_DIGIT_LENGTH)));
+            return;
+        }
+
+        format(expressionBuilder);
+        insertCommasInNumbers(expressionBuilder);
+        inputExpression.setText(expressionBuilder);
     }
 
     public void onClickInsertDot(View view) {
         StringBuilder expressionBuilder = new StringBuilder(inputExpression.getText());
-        insertDot(expressionBuilder);
+        expressionBuilder.append(Symbol.DOT);
+        format(expressionBuilder);
+        isDecimalInput = true;
 
         inputExpression.setText(expressionBuilder);
     }
@@ -115,116 +150,64 @@ public class MainActivity extends AppCompatActivity {
         }
 
         StringBuilder expressionBuilder = new StringBuilder(inputExpression.getText());
-        insertOperation(expressionBuilder, operation);
+        expressionBuilder.append(operation);
+        format(expressionBuilder);
+
         inputExpression.setText(expressionBuilder);
     }
 
     public void onClickDeleteCharacter(View view) {
         StringBuilder expressionBuilder = new StringBuilder(inputExpression.getText());
-        deleteCharacter(expressionBuilder);
+        if (expressionBuilder.length() > 0) {
+            char lastCharacter = getLastCharacter(expressionBuilder);
+            expressionBuilder.replace(expressionBuilder.length() - 1, expressionBuilder.length(), "");
 
-        inputExpression.setText(insertCommasInNumbers(expressionBuilder.toString()));
+            if (lastCharacter == Symbol.OPEN_BRACKET.getValue()) {
+                --brackets;
+                isOpeningBracket = true;
+            } else if (lastCharacter == Symbol.CLOSED_BRACKET.getValue()) {
+                ++brackets;
+                isOpeningBracket = false;
+            } else if (lastCharacter == Symbol.DOT.getValue()) {
+                isDecimalInput = false;
+            }
+
+            insertCommasInNumbers(expressionBuilder);
+            inputExpression.setText(expressionBuilder);
+        }
     }
 
     public void onClickInsertOpenClosedBracket(View view) {
         StringBuilder expressionBuilder = new StringBuilder(inputExpression.getText());
-        insertOpenClosedBracket(expressionBuilder);
 
-        inputExpression.setText(expressionBuilder);
-    }
-
-    public void onClickClear(View view) {
-        clear();
-    }
-
-    private void insertDigit(StringBuilder expressionBuilder, Digit digit) {
-        if (expressionBuilder.length() > 0 && getLastCharacter(expressionBuilder) == Symbol.CLOSED_BRACKET.getValue()) {
-            insertOperation(expressionBuilder, Operation.MULTIPLICATION);
+        if (brackets > 0 && isDigit(getLastCharacter(expressionBuilder))) {
+            isOpeningBracket = false;
         }
 
-        if (lastDigitLength(expressionBuilder) > MAX_DIGIT_LENGTH) {
-            showToast("Maximum number of digits is: " + MAX_DIGIT_LENGTH);
-        } else {
-            if ((expressionBuilder.length() == 1 && Character.getNumericValue(expressionBuilder.charAt(0)) != Digit.ZERO.getValue())
-                    || expressionBuilder.length() != 1) {
-                expressionBuilder.append(digit);
-            }
-        }
-    }
-
-
-    public void insertOperation(StringBuilder expressionBuilder, Operation operation) {
-        if (expressionBuilder.length() > 0 && isOperation(getLastCharacter(expressionBuilder))) {
-            expressionBuilder.replace(expressionBuilder.length() - 1, expressionBuilder.length(), operation.toString());
-        } else if (operation == Operation.SUBTRACTION ||
-                expressionBuilder.length() > 0) {
-            expressionBuilder.append(operation);
-        }
-    }
-
-    public void insertPositiveNegativeSign(StringBuilder expressionBuilder) {
-        //TODO check getSelectionStart behaviour
-        StringBuilder numberBuilder = new StringBuilder();
-        int idx = expressionBuilder.length();
-
-        while (idx - 1 >= 0 && isDigit(expressionBuilder.charAt(idx - 1))) {
-            --idx;
-            numberBuilder.insert(0, expressionBuilder.charAt(idx));
-        }
-
-        if (idx - 1 >= 0 && expressionBuilder.charAt(idx - 1) == Operation.SUBTRACTION.getValue()
-                && idx - 2 >= 0 && expressionBuilder.charAt(idx - 2) == Symbol.OPEN_BRACKET.getValue()) {
-            expressionBuilder.replace(idx - 2, idx, "");
-        } else {
-            //remove number
-            expressionBuilder.replace(idx, expressionBuilder.length(), "");
+        if (isOpeningBracket) {
             insertOpenBracket(expressionBuilder);
-            insertOperation(expressionBuilder, Operation.SUBTRACTION);
-            expressionBuilder.append(numberBuilder);
-        }
-    }
-
-    public void deleteCharacter(StringBuilder expressionBuilder) {
-        if (expressionBuilder.length() > 0) {
-            if (expressionBuilder.charAt(expressionBuilder.length() - 1) == Symbol.OPEN_BRACKET.getValue()) {
-                --brackets;
-            } else if (expressionBuilder.charAt(expressionBuilder.length() - 1) == Symbol.CLOSED_BRACKET.getValue()) {
-                ++brackets;
-            }
-
-            openingBracket = brackets == 0;
-
-            expressionBuilder.replace(expressionBuilder.length() - 1, expressionBuilder.length(), "");
-        }
-    }
-
-    public void clear() {
-        inputExpression.setText("");
-        resultExpression.setText("");
-        brackets = 0;
-        openingBracket = true;
-    }
-
-    public void insertOpenClosedBracket(StringBuilder expressionBuilder) {
-        if (expressionBuilder.length() > 0) {
-            char lastCharacter = getLastCharacter(expressionBuilder);
-
-            if (brackets > 0 && isDigit(lastCharacter)) {
-                openingBracket = false;
-            } else if (lastCharacter != Symbol.OPEN_BRACKET.getValue()) {
-                insertOperation(expressionBuilder, Operation.MULTIPLICATION);
-            }
-        }
-
-        if (openingBracket) {
-            insertOpenBracket(expressionBuilder);
-        } else if (brackets > 0) {
+        } else {
             insertClosedBracket(expressionBuilder);
         }
 
         if (brackets == 0) {
-            openingBracket = true;
+            isOpeningBracket = true;
         }
+
+        format(expressionBuilder);
+        inputExpression.setText(expressionBuilder);
+    }
+
+    public void onClickClear(View view) {
+        reset();
+    }
+
+    private void reset() {
+        inputExpression.setText("");
+        resultExpression.setText("");
+        brackets = 0;
+        isOpeningBracket = true;
+        isDecimalInput = false;
     }
 
     private void insertOpenBracket(StringBuilder expressionBuilder) {
@@ -237,37 +220,13 @@ public class MainActivity extends AppCompatActivity {
         expressionBuilder.append(Symbol.CLOSED_BRACKET);
     }
 
-    public void insertDot(StringBuilder expressionBuilder) {
-        int idx = expressionBuilder.length() - 1;
-        boolean dotEntered = false;
-
-        while (idx >= 0 && isDigit(expressionBuilder.charAt(idx))) {
-            if (expressionBuilder.charAt(idx) == Symbol.DOT.getValue()) {
-                dotEntered = true;
-                break;
-            }
-            --idx;
-        }
-
-        if (!dotEntered) {
-            insertDigit(expressionBuilder, Digit.ZERO);
-        }
-
-        expressionBuilder.append(Symbol.DOT);
-    }
-
-    public void insertResult() {
-        inputExpression.setText(resultExpression.getText());
-        resultExpression.setText("");
-    }
-
     private void showToast(String message) {
         toast.cancel();
         toast.setText(message);
         toast.show();
     }
 
-    private int lastDigitLength(StringBuilder expressionBuilder) {
+    private int lastNumberLength(StringBuilder expressionBuilder) {
         int idx = expressionBuilder.length() - 1;
         int digitLength = 0;
 
@@ -298,29 +257,92 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private char getLastCharacter(CharSequence expression) {
-        return expression.charAt(expression.length() - 1);
+        return expression.length() > 0 ? expression.charAt(expression.length() - 1) : EMPTY_CHAR_VALUE;
     }
 
-    private CharSequence insertCommasInNumbers(String expression) {
+    private void insertCommasInNumbers(StringBuilder expression) {
         StringBuilder expressionBuilder = new StringBuilder();
         int numberCount = 0;
-
-        expression = expression.replaceAll(Symbol.COMMA.toString(), "");
+        int decimalPointIdx = findNextDecimalPoint(expression, expression.length() - 1);
+        boolean numberStart = false;
 
         for (int i = expression.length() - 1; i >= 0; --i) {
             if (Character.isDigit(expression.charAt(i))) {
-                if (++numberCount == 4) {
+                if (!numberStart) {
+                    decimalPointIdx = findNextDecimalPoint(expression, i);
+                    numberStart = true;
+                }
+                if (decimalPointIdx == -1 && ++numberCount == 4) {
                     expressionBuilder.insert(0, Symbol.COMMA.getValue());
                     numberCount = 1;
                 }
-            } else {
+            } else if (expression.charAt(i) != Symbol.COMMA.getValue()) {
                 numberCount = 0;
+                numberStart = false;
             }
 
-            expressionBuilder.insert(0, expression.charAt(i));
+            if (expression.charAt(i) != Symbol.COMMA.getValue()) {
+                expressionBuilder.insert(0, expression.charAt(i));
+            }
         }
 
-        return expressionBuilder.toString();
+        expression.replace(0, expression.length(), expressionBuilder.toString());
+    }
+
+    private int findNextDecimalPoint(StringBuilder expression, int idxStart) {
+        while (idxStart >= 0) {
+            if (expression.charAt(idxStart) == Symbol.DOT.getValue()) {
+                return idxStart;
+            } else if (!isDigit(expression.charAt(idxStart))) {
+                return -1;
+            }
+
+            --idxStart;
+        }
+
+        return idxStart;
+    }
+
+    private void format(StringBuilder expressionBuilder) {
+        char previousCharacter;
+
+        for (int i = 0; i >= 0 && i < expressionBuilder.length(); ++i) {
+            char character = expressionBuilder.charAt(i);
+            if (i > 0) {
+                previousCharacter = expressionBuilder.charAt(i - 1);
+            } else {
+                previousCharacter = EMPTY_CHAR_VALUE;
+            }
+
+            if (character == Symbol.DOT.getValue()) {
+                if (!isDigit(previousCharacter)) {
+                    expressionBuilder.insert(i, Digit.ZERO);
+                } else if (previousCharacter == Symbol.DOT.getValue()) {
+                    expressionBuilder.replace(i, i + 1, "");
+                    i -= 2;
+                }
+            } else if (isDigit(character)) {
+                if (previousCharacter == Symbol.CLOSED_BRACKET.getValue()) {
+                    expressionBuilder.insert(i, Operation.MULTIPLICATION);
+                } else if (previousCharacter == Digit.ZERO.getValue() + '0') {
+                    expressionBuilder.replace(i - 1, i, "");
+                    i -= 2;
+                }
+            } else if (character == Symbol.OPEN_BRACKET.getValue()) {
+                if (previousCharacter == Symbol.CLOSED_BRACKET.getValue() || isDigit(previousCharacter)) {
+                    expressionBuilder.insert(i, Operation.MULTIPLICATION);
+                }
+            } else if (isOperation(character)) {
+                if (isOperation(previousCharacter)) {
+                    expressionBuilder.replace(i - 1, i, "");
+                    i -= 2;
+                } else if ((previousCharacter == EMPTY_CHAR_VALUE || previousCharacter == Symbol.OPEN_BRACKET.getValue())
+                        && character != Operation.SUBTRACTION.getValue() && character != Operation.ADDITION.getValue()) {
+                    expressionBuilder.replace(i, i + 1, "");
+                    i -= 2;
+                }
+            }
+        }
     }
 
     private void calculate() {
