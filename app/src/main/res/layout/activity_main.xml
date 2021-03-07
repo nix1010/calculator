@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/AppTheme.NoActionBar"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/expression_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:hint="1+2+3"
+            android:textAlignment="textEnd"
+            android:height="200dp"
+            android:overScrollMode="ifContentScrolls"
+            android:textColor="@color/user_input_text"
+            android:textSize="45sp" />
+
+        <TextView
+            android:id="@+id/expression_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="10"
+            android:textAlignment="textEnd"
+            android:textColor="@color/user_input_result_text"
+            android:textSize="35sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_clear"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickClear"
+                android:text="@string/clear"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_brackets"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertOpenClosedBracket"
+                android:text="@string/brackets"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_delete"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickDeleteCharacter"
+                android:text="@string/delete"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_division"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertOperation"
+                android:text="@string/division"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_number_seven"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_seven"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_number_eight"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_eight"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_number_nine"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_nine"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_multiplication"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertOperation"
+                android:text="@string/times"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_number_four"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_four"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_number_five"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_five"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_number_six"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_six"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_subtraction"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertOperation"
+                android:text="@string/minus"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_number_one"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#000"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_one"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_number_two"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_two"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_number_three"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_three"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_addition"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertOperation"
+                android:text="@string/plus"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_dot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDot"
+                android:text="@string/dot"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_number_zero"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertDigit"
+                android:text="@string/number_zero"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_negative"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertPositiveNegativeSign"
+                android:text="@string/negative"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/btn_equal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/button_operation_bg"
+                android:onClick="onClickInsertResult"
+                android:text="@string/equal"
+                android:textColor="@color/teal_200"
+                android:textSize="40sp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
