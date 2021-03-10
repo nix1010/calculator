@@ -1,60 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/AppTheme.NoActionBar"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/input_expression"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:gravity="end"
+        android:textColor="@color/user_input_text"
+        android:textSize="45sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints=""
+        android:inputType="text"
+        tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/result_expression"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="parent"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        android:gravity="end"
+        android:textColor="@color/user_input_result_text"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_expression" />
 
-        <TextView
-            android:id="@+id/expression_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:textAlignment="textEnd"
-            android:height="150dp"
-            android:overScrollMode="ifContentScrolls"
-            android:textColor="@color/user_input_text"
-            android:textSize="45sp" />
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/delete"
+        android:onClick="onClickDelete"
+        android:text="@string/delete"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/backspace" />
 
-        <TextView
-            android:id="@+id/expression_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:textAlignment="textEnd"
-            android:textColor="@color/user_input_result_text"
-            android:textSize="35sp" />
-    </LinearLayout>
-
-    <LinearLayout
+    <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/result_expression"
+        app:layout_constraintVertical_bias="1.0">
 
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/btn_clear"
-                style="?android:attr/borderlessButtonStyle"
+
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickClear"
                 android:text="@string/clear"
                 android:textColor="@color/teal_200"
@@ -67,23 +78,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
-                android:onClick="onClickInsertOpenClosedBracket"
-                android:text="@string/brackets"
+                android:onClick="onClickInsertOpenClosedParenthesis"
+                android:text="@string/parenthesis"
                 android:textColor="@color/teal_200"
                 android:textSize="40sp" />
 
             <Button
-                android:id="@+id/btn_delete"
+                android:id="@+id/btn_power"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
-                android:onClick="onClickDeleteCharacter"
-                android:text="@string/delete"
+                android:onClick="onClickInsertOperation"
+                android:text="@string/power"
                 android:textColor="@color/teal_200"
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                app:backgroundTint="@color/button_operation_bg"
+                app:backgroundTintMode="src_in" />
 
             <Button
                 android:id="@+id/btn_division"
@@ -91,17 +102,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertOperation"
                 android:text="@string/division"
                 android:textColor="@color/teal_200"
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                app:backgroundTint="@color/button_operation_bg" />
 
-        </LinearLayout>
+        </TableRow>
 
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/btn_number_seven"
@@ -109,10 +120,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_seven"
-                android:textColor="@color/teal_200"
+                android:text="@string/seven"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -121,11 +131,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_eight"
-                android:textColor="@color/teal_200"
-                android:textSize="40sp" />
+                android:text="@string/eight"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                app:backgroundTint="@color/purple_700" />
 
             <Button
                 android:id="@+id/btn_number_nine"
@@ -133,10 +143,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_nine"
-                android:textColor="@color/teal_200"
+                android:text="@string/nine"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -145,16 +154,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertOperation"
-                android:text="@string/times"
+                android:text="@string/multiplication"
                 android:textColor="@color/teal_200"
                 android:textSize="40sp" />
-        </LinearLayout>
+        </TableRow>
 
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/btn_number_four"
@@ -162,10 +170,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_four"
-                android:textColor="@color/teal_200"
+                android:text="@string/four"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -174,10 +181,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_five"
-                android:textColor="@color/teal_200"
+                android:text="@string/five"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -186,10 +192,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_six"
-                android:textColor="@color/teal_200"
+                android:text="@string/six"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -198,16 +203,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertOperation"
-                android:text="@string/minus"
+                android:text="@string/subtraction"
                 android:textColor="@color/teal_200"
                 android:textSize="40sp" />
-        </LinearLayout>
+        </TableRow>
 
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/btn_number_one"
@@ -215,10 +219,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#000"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_one"
-                android:textColor="@color/teal_200"
+                android:text="@string/one"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -227,10 +230,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_two"
-                android:textColor="@color/teal_200"
+                android:text="@string/two"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -239,10 +241,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_three"
-                android:textColor="@color/teal_200"
+                android:text="@string/three"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
@@ -251,60 +252,60 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertOperation"
-                android:text="@string/plus"
+                android:text="@string/addition"
                 android:textColor="@color/teal_200"
                 android:textSize="40sp" />
-        </LinearLayout>
+        </TableRow>
 
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/btn_dot"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDot"
-                android:text="@string/dot"
-                android:textColor="@color/teal_200"
+                android:text="@string/decimal"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
                 android:id="@+id/btn_number_zero"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertDigit"
-                android:text="@string/number_zero"
-                android:textColor="@color/teal_200"
+                android:text="@string/zero"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
-                android:id="@+id/btn_negative"
+                android:id="@+id/btn_positive_negative"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertPositiveNegativeSign"
                 android:text="@string/negative_positive"
-                android:textColor="@color/teal_200"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
 
             <Button
                 android:id="@+id/btn_equal"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/button_operation_bg"
                 android:onClick="onClickInsertResult"
-                android:text="@string/equal"
-                android:textColor="@color/teal_200"
-                android:textSize="40sp" />
-        </LinearLayout>
-    </LinearLayout>
+                android:text="@string/equals"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                app:backgroundTint="@color/button_equals" />
+        </TableRow>
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,23 +1,35 @@
 package com.example.calculator;
 
 public enum Operation {
-    MULTIPLICATION('*'),
-    DIVISION('/'),
-    ADDITION('+'),
-    SUBTRACTION('-');
+    MULTIPLICATION("*", '×'),
+    DIVISION("/", '÷'),
+    ADDITION("+"),
+    SUBTRACTION("-"),
+    POWER("^");
 
-    private final char operation;
+    private final String operation;
+    private final char displayOperation;
 
-    Operation(char operation){
+    Operation(String operation) {
         this.operation = operation;
+        this.displayOperation = operation.charAt(0);
     }
 
-    public char getValue(){
+    Operation(String operation, char displayOperation) {
+        this.operation = operation;
+        this.displayOperation = displayOperation;
+    }
+
+    public char getDisplayValue() {
+        return displayOperation;
+    }
+
+    public String getValue(){
         return operation;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(getValue());
+        return String.valueOf(getDisplayValue());
     }
 }
