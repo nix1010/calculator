@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         formatExpression(expressionBuilder);
         insertCommasInNumbers(expressionBuilder);
-        insertExpressionToEdit(expressionBuilder);
+        insertExpressionToEditText(expressionBuilder);
 
         calculate();
     }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         insertExpression(expressionBuilder, digit);
         formatExpression(expressionBuilder);
         insertCommasInNumbers(expressionBuilder);
-        insertExpressionToEdit(expressionBuilder);
+        insertExpressionToEditText(expressionBuilder);
 
         calculate();
     }
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         insertExpression(expressionBuilder, Symbol.DOT);
         formatExpression(expressionBuilder);
         insertCommasInNumbers(expressionBuilder);
-        insertExpressionToEdit(expressionBuilder);
+        insertExpressionToEditText(expressionBuilder);
 
         calculate();
     }
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         insertExpression(expressionBuilder, operation);
         formatExpression(expressionBuilder);
         insertCommasInNumbers(expressionBuilder);
-        insertExpressionToEdit(expressionBuilder);
+        insertExpressionToEditText(expressionBuilder);
 
         calculate();
     }
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
         formatExpression(expressionBuilder);
         insertCommasInNumbers(expressionBuilder);
-        insertExpressionToEdit(expressionBuilder);
+        insertExpressionToEditText(expressionBuilder);
 
         if (expressionBuilder.length() == 0) {
             reset();
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         insertExpression(expressionBuilder, getParenthesis());
         formatExpression(expressionBuilder);
         insertCommasInNumbers(expressionBuilder);
-        insertExpressionToEdit(expressionBuilder);
+        insertExpressionToEditText(expressionBuilder);
 
         calculate();
     }
@@ -273,8 +273,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void insertExpressionToEdit(StringBuilder expressionBuilder) {
+    private void insertExpressionToEditText(StringBuilder expressionBuilder) {
         int selectionStart = inputExpression.getSelectionStart();
+        int selectionEnd = inputExpression.getSelectionEnd();
         int lengthBeforeInsert = inputExpression.length();
         int lengthAfterInsert = expressionBuilder.length();
 
@@ -282,8 +283,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (inputExpression.isFocused()) {
             int moveCursor = lengthAfterInsert - lengthBeforeInsert;
-            if (moveCursor + selectionStart < 0) {
-                moveCursor = 0;
+
+            if(selectionStart != selectionEnd) {
+                if (moveCursor < 0) {
+                    moveCursor = 0;
+                } else if (moveCursor == 0) {
+                    moveCursor = 1;
+                }
             }
             inputExpression.setSelection(selectionStart + moveCursor);
         } else {
