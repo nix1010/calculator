@@ -28,4 +28,7 @@
     <string name="max_decimal_length">"Maximum number of decimal digits is: %s"</string>
     <string name="max_number_length">Maximum number of digits is: %s</string>
     <string name="max_operations">Maximum number of operations is: %s</string>
+
+    <string name="button_text_size" translatable="false">38sp</string>
+    <string name="button_margin" translatable="false">5dp</string>
 </resources>
