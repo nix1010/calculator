@@ -11,7 +11,9 @@
     <color name="user_input_text">#363535</color>
     <color name="user_input_result_text">#838181</color>
 
-    <color name="button_operation_bg">#ACABAB</color>
-    <color name="button_equals">#00870e</color>
+    <color name="button_digit" translatable="false">#ECEFF1</color>
+    <color name="button_operation" translatable="false">#607D8B</color>
+    <color name="button_extra_operation" translatable="false">#7E99A6</color>
+    <color name="button_equals">#FF9800</color>
 
 </resources>

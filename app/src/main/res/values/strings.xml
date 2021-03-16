@@ -18,6 +18,16 @@
     <string name="division" translatable="false">÷</string>
     <string name="power" translatable="false">^</string>
     <string name="parenthesis" translatable="false">()</string>
+    <string name="square_root" translatable="false">√</string>
+    <string name="factorial" translatable="false">!</string>
+    <string name="sine" translatable="false">sin</string>
+    <string name="cosine" translatable="false">cos</string>
+    <string name="tangent" translatable="false">tan</string>
+    <string name="pi" translatable="false">π</string>
+    <string name="euler_number" translatable="false">e</string>
+    <string name="natural_logarithm" translatable="false">ln</string>
+    <string name="absolute" translatable="false">|x|</string>
+    <string name="logarithm" translatable="false">log</string>
 
     <string name="decimal" translatable="false">.</string>
     <string name="negative_positive" translatable="false">+/-</string>
@@ -27,8 +37,4 @@
 
     <string name="max_decimal_length">"Maximum number of decimal digits is: %s"</string>
     <string name="max_number_length">Maximum number of digits is: %s</string>
-    <string name="max_operations">Maximum number of operations is: %s</string>
-
-    <string name="button_text_size" translatable="false">38sp</string>
-    <string name="button_margin" translatable="false">5dp</string>
 </resources>

@@ -10,7 +10,6 @@
         android:id="@+id/input_expression"
         android:layout_width="match_parent"
         android:layout_height="@dimen/editText_input_height"
-        android:layout_marginTop="10dp"
         android:gravity="end"
         android:textColor="@color/user_input_text"
         android:textSize="@dimen/editText_input_text_size"
@@ -60,6 +59,33 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_pi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertNumber"
+                android:text="@string/pi"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
+
+            <Button
+                android:id="@+id/btn_square_root"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperationWithBrackets"
+                android:text="@string/square_root"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                />
 
             <Button
                 android:id="@+id/btn_clear"
@@ -118,6 +144,33 @@
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/btn_euler_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertNumber"
+                android:text="@string/euler_number"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
+
+            <Button
+                android:id="@+id/btn_factorial"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperation"
+                android:text="@string/factorial"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                />
+
+            <Button
                 android:id="@+id/btn_number_seven"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -172,6 +225,34 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_natural_logarithm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperationWithBrackets"
+                android:text="@string/natural_logarithm"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
+
+            <Button
+                android:id="@+id/btn_sine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperationWithBrackets"
+                android:text="@string/sine"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
 
             <Button
                 android:id="@+id/btn_number_four"
@@ -230,6 +311,34 @@
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/btn_logarithm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperationWithBrackets"
+                android:text="@string/logarithm"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
+
+            <Button
+                android:id="@+id/btn_cosine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperationWithBrackets"
+                android:text="@string/cosine"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
+
+            <Button
                 android:id="@+id/btn_number_one"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -284,6 +393,34 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_absolute"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperationWithBrackets"
+                android:text="@string/absolute"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
+
+            <Button
+                android:id="@+id/btn_tangent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickInsertOperationWithBrackets"
+                android:text="@string/tangent"
+                android:textSize="@dimen/button_text_size"
+                android:backgroundTint="@color/button_extra_operation"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:textAllCaps="false"
+                />
 
             <Button
                 android:id="@+id/btn_dot"

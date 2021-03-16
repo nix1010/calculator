@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="editText_input_text_size" translatable="false">30sp</dimen>
+    <dimen name="editText_result_text_size" translatable="false">20sp</dimen>
+
+    <dimen name="button_text_size" translatable="false">18sp</dimen>
+    <dimen name="editText_input_height" translatable="false">70dp</dimen>
+</resources>

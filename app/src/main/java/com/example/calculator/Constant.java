@@ -7,6 +7,4 @@ public final class Constant {
     public static final String EMPTY_STRING = "";
     public static final String INPUT_EXPRESSION_VALUE = "INPUT_EXPRESSION_VALUE";
     public static final String RESULT_EXPRESSION_VALUE = "RESULT_EXPRESSION_VALUE";
-    public static final int MAX_OPERATIONS = 20;
-    public static final String TAG = "Calculator";
 }
