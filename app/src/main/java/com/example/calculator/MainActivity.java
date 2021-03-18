@@ -90,10 +90,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickInsertResult(View view) {
-        if (resultExpression.getText().length() > 0) {
-            inputExpression.setText(resultExpression.getText());
-            inputExpression.setSelection(inputExpression.getText().length());
-            resultExpression.setText(Constant.EMPTY_STRING);
+        if (new Expression(inputExpression.getText().toString()).checkSyntax()) {
+            CharSequence resultExpressionText = resultExpression.getText();
+
+            if (resultExpressionText.length() > 0) {
+                inputExpression.setText(resultExpressionText);
+                inputExpression.setSelection(inputExpression.getText().length());
+                resultExpression.setText(Constant.EMPTY_STRING);
+            }
+        } else {
+            showToast(getResources().getString(R.string.expression_not_valid));
         }
     }
 
@@ -261,6 +267,8 @@ public class MainActivity extends AppCompatActivity {
         formatExpression(expressionBuilder);
         insertCommasInNumbers(expressionBuilder);
         insertExpressionToEditText(expressionBuilder);
+
+        calculate();
     }
 
     public void onClickDelete(View view) {
@@ -562,6 +570,10 @@ public class MainActivity extends AppCompatActivity {
             expression = expression.replace(operation.getDisplayValue(), operation.getValue());
         }
 
+        for (StringOperation operation : StringOperation.values()) {
+            expression = expression.replace(operation.getDisplayValue(), operation.getValue());
+        }
+
         for (Number number : Number.values()) {
             expression = expression.replace(number.getDisplayValue(), number.getValue());
         }
@@ -578,14 +590,22 @@ public class MainActivity extends AppCompatActivity {
         Expression expressionCalculation = new Expression(expressionBuilder.toString());
 
         if (expressionCalculation.checkSyntax()) {
-            BigDecimal bigDecimal = BigDecimal.valueOf(expressionCalculation.calculate());
-            double result = bigDecimal.setScale(Constant.MAX_DECIMAL_LENGTH, RoundingMode.HALF_UP).doubleValue();
+            double result = expressionCalculation.calculate();
 
-            StringBuilder resultBuilder = new StringBuilder(String.valueOf(result));
-            trimExcessDecimals(resultBuilder);
-            insertCommasInNumbers(resultBuilder);
+            if (!Double.isNaN(result) && !Double.isInfinite(result)) {
+                BigDecimal bigDecimal = BigDecimal.valueOf(result);
+                result = bigDecimal.setScale(Constant.MAX_DECIMAL_LENGTH, RoundingMode.HALF_UP).doubleValue();
 
-            resultExpression.setText(resultBuilder);
+                StringBuilder resultBuilder = new StringBuilder(String.valueOf(result));
+                trimExcessDecimals(resultBuilder);
+                insertCommasInNumbers(resultBuilder);
+
+                resultExpression.setText(resultBuilder);
+            } else {
+                showToast(getResources().getString(R.string.result_not_valid));
+            }
+        } else {
+            resultExpression.setText(Constant.EMPTY_STRING);
         }
     }
 }

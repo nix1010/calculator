@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="max_decimal_length">"Maksimalni broj decimalnih cifara je: %s"</string>
-    <string name="max_number_length">"Maksimalni broj cifara je: %s"</string>
-    <string name="delete">Obriši</string>
+    <string name="max_decimal_length">Максимални број децималних цифара је: %s</string>
+    <string name="max_number_length">Максимални број цифара је: %s</string>
+    <string name="delete">Обриши</string>
+    <string name="result_not_valid">Резултат није валидан број</string>
+    <string name="expression_not_valid">Израз није валидан</string>
 </resources>
