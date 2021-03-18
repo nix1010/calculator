@@ -23,8 +23,12 @@ public class MainActivity extends AppCompatActivity {
     private Toast toast;
     private EditText inputExpression;
     private TextView resultExpression;
+    private boolean isValidInputExpression;
+    private boolean isValidResultExpression;
 
     public MainActivity() {
+        isValidInputExpression = true;
+        isValidResultExpression = true;
     }
 
     @Override
@@ -90,16 +94,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickInsertResult(View view) {
-        if (new Expression(inputExpression.getText().toString()).checkSyntax()) {
-            CharSequence resultExpressionText = resultExpression.getText();
+        if(inputExpression.getText().length() > 0) {
+            if (isValidInputExpression && isValidResultExpression) {
+                CharSequence resultExpressionText = resultExpression.getText();
 
-            if (resultExpressionText.length() > 0) {
-                inputExpression.setText(resultExpressionText);
-                inputExpression.setSelection(inputExpression.getText().length());
-                resultExpression.setText(Constant.EMPTY_STRING);
+                if(resultExpressionText.length() > 0) {
+                    inputExpression.setText(resultExpressionText);
+                    inputExpression.setSelection(inputExpression.getText().length());
+                    resultExpression.setText(Constant.EMPTY_STRING);
+                }
+            } else if (!isValidInputExpression) {
+                showToast(getResources().getString(R.string.expression_not_valid));
+            } else {
+                showToast(getResources().getString(R.string.result_not_valid));
             }
-        } else {
-            showToast(getResources().getString(R.string.expression_not_valid));
         }
     }
 
@@ -601,11 +609,15 @@ public class MainActivity extends AppCompatActivity {
                 insertCommasInNumbers(resultBuilder);
 
                 resultExpression.setText(resultBuilder);
+                isValidResultExpression = true;
             } else {
                 showToast(getResources().getString(R.string.result_not_valid));
+                isValidResultExpression = false;
             }
+            isValidInputExpression = true;
         } else {
             resultExpression.setText(Constant.EMPTY_STRING);
+            isValidInputExpression = false;
         }
     }
 }
